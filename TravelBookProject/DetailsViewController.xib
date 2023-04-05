@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailsViewController" customModule="TravelBookProject" customModuleProvider="target">
+            <connections>
+                <outlet property="commenText" destination="v8s-6O-mWr" id="E6u-jM-nDO"/>
+                <outlet property="mapView" destination="M2U-xv-oXE" id="tei-Ng-wAi"/>
+                <outlet property="nameText" destination="4fa-XW-Obs" id="xsB-If-h8Q"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M2U-xv-oXE">
+                    <rect key="frame" x="0.0" y="221" width="393" height="532"/>
+                    <standardMapConfiguration key="preferredConfiguration"/>
+                </mapView>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4fa-XW-Obs">
+                    <rect key="frame" x="16" y="115" width="361" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Commen" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v8s-6O-mWr">
+                    <rect key="frame" x="16" y="166" width="361" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pOc-CD-evV">
+                    <rect key="frame" x="166" y="768" width="61" height="35"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="Save"/>
+                    <connections>
+                        <action selector="saveButton:" destination="-1" eventType="touchUpInside" id="e9F-L0-EDc"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="M2U-xv-oXE" secondAttribute="trailing" id="7NN-LD-WAa"/>
+                <constraint firstItem="4fa-XW-Obs" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="8ZA-PN-xel"/>
+                <constraint firstItem="4fa-XW-Obs" firstAttribute="leading" secondItem="v8s-6O-mWr" secondAttribute="leading" id="Bo5-Ve-fX2"/>
+                <constraint firstItem="pOc-CD-evV" firstAttribute="top" secondItem="M2U-xv-oXE" secondAttribute="bottom" constant="15" id="Dkf-z8-fe5"/>
+                <constraint firstItem="M2U-xv-oXE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="FlI-zc-XVI"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="pOc-CD-evV" secondAttribute="bottom" constant="15" id="LFA-Mb-GYZ"/>
+                <constraint firstItem="4fa-XW-Obs" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="56" id="Li6-x2-hP3"/>
+                <constraint firstItem="v8s-6O-mWr" firstAttribute="top" secondItem="4fa-XW-Obs" secondAttribute="bottom" constant="17" id="Q6A-Nf-kts"/>
+                <constraint firstItem="M2U-xv-oXE" firstAttribute="centerX" secondItem="pOc-CD-evV" secondAttribute="centerX" id="brv-Zc-TA2"/>
+                <constraint firstItem="4fa-XW-Obs" firstAttribute="trailing" secondItem="v8s-6O-mWr" secondAttribute="trailing" id="guE-kG-NVR"/>
+                <constraint firstItem="M2U-xv-oXE" firstAttribute="top" secondItem="v8s-6O-mWr" secondAttribute="bottom" constant="21" id="r0p-tU-MTj"/>
+                <constraint firstItem="v8s-6O-mWr" firstAttribute="centerX" secondItem="M2U-xv-oXE" secondAttribute="centerX" id="utF-5v-exo"/>
+            </constraints>
+            <point key="canvasLocation" x="139.69465648854961" y="20.422535211267608"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
