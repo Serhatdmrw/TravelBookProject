@@ -10,12 +10,12 @@ import UIKit
 class HomeViewController: UIViewController {
     
     // MARK: - Outles
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     
     // MARK: - Properties
     private let viewModel = HomeViewModel()
-    var titleArray : [String] = []
-    var idArray : [UUID] = []
+    private var titleArray : [String] = []
+    private var idArray : [UUID] = []
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -75,12 +75,28 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(DetailsViewController(), animated: true)
+        let detailsViewController = DetailsViewController()
+        detailsViewController.chosenTitle = self.titleArray[indexPath.row]
+        detailsViewController.chosenİd = self.idArray[indexPath.row]
+        navigationController?.pushViewController(detailsViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            viewModel.commitData(idS: idArray[indexPath.row])
+            titleArray.remove(at: indexPath.row)
+            idArray.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
     }
 }
 
 // MARK: - HomeViewModelDelegate
 extension HomeViewController: HomeViewModelDelegate {
+    func didCommitDataFail(messega: String) {
+        self.makeAlert(titleInput: "Error", messegaInput: messega)
+    }
+    
     func didGetDataSuccess(titleArray: [String], idArray: [UUID]) {
         self.titleArray = titleArray
         self.idArray = idArray

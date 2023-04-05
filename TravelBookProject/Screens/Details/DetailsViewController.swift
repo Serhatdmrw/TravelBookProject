@@ -13,15 +13,17 @@ import CoreData
 class DetailsViewController: UIViewController {
     
     // MARK: - Outles
-    @IBOutlet weak var nameText: UITextField!
-    @IBOutlet weak var commenText: UITextField!
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet private weak var nameText: UITextField!
+    @IBOutlet private weak var commenText: UITextField!
+    @IBOutlet private weak var mapView: MKMapView!
     
     // MARK: - Properties
     var locationManager = CLLocationManager()
     var chosenLatitude = Double()
     var chosenLongtitude = Double()
     private let viewModel = DetailsViewModel()
+    var chosenTitle = ""
+    var chosenİd = UUID()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -30,6 +32,7 @@ class DetailsViewController: UIViewController {
         addDelegates()
         userLocation()
         addLongGestureRecognizer()
+        ifChosenPlaces()
     }
     
     // MARK: - Actions
@@ -47,6 +50,15 @@ class DetailsViewController: UIViewController {
 // MARK: - Helpers
 private extension DetailsViewController {
     
+    func ifChosenPlaces() {
+        if chosenTitle != "" {
+            viewModel.filteringData(id: chosenİd, selectedTitle: &nameText.text!, selectedSubTitle: &commenText.text!, selectedLatitude: &chosenLatitude, selectedLongtitude: &chosenLongtitude, mapView: mapView, locationManager: locationManager)
+        } else {
+            nameText.text = ""
+            commenText.text = ""
+        }
+    }
+    
     func addLongGestureRecognizer() {
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(chooseLocation))
         gestureRecognizer.minimumPressDuration = 2
@@ -57,7 +69,6 @@ private extension DetailsViewController {
         if gestureRecognizer.state == .began {
             let tounchPoint = gestureRecognizer.location(in: mapView)
             let tounchCoordinate = mapView.convert(tounchPoint, toCoordinateFrom: mapView)
-            
             self.chosenLatitude = tounchCoordinate.latitude
             self.chosenLongtitude = tounchCoordinate.longitude
             
@@ -98,9 +109,47 @@ extension DetailsViewController: MKMapViewDelegate, CLLocationManagerDelegate {
         let region = MKCoordinateRegion(center: location, span: span)
         self.mapView.setRegion(region, animated: true)
     }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if annotation is MKUserLocation {
+            return nil
+        }
+        let reusİd = "myAnnotation"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reusİd)
+        if pinView == nil {
+            pinView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: reusİd)
+            pinView?.canShowCallout = true
+            pinView?.tintColor = UIColor.black
+            let button = UIButton(type: UIButton.ButtonType.detailDisclosure)
+            pinView?.rightCalloutAccessoryView = button
+        } else {
+            pinView?.annotation = annotation
+    }
+        return pinView
+        }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let requestLocation = CLLocation(latitude: chosenLatitude, longitude: chosenLongtitude)
+        CLGeocoder().reverseGeocodeLocation(requestLocation) { placemarks, error in
+            if let placemark = placemarks {
+                if placemark.count > 0 {
+                    let newPlacemark = MKPlacemark(placemark: placemark[0])
+                    let item = MKMapItem(placemark: newPlacemark)
+                    item.name = self.nameText.text
+                    let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+                    item.openInMaps(launchOptions: launchOptions)
+                }
+            }
+        }
+    }
 }
-
+// MARK: - DetailsViewModelDelegate
 extension DetailsViewController: DetailsViewModelDelegate {
+    func didFilteringData(messega: String) {
+        self.makeAlert(tittleInput: "Error", messegaInput: messega)
+    }
+    
     func didSaveDataFail(messega: String) {
         self.makeAlert(tittleInput: "Error", messegaInput: messega)
     }
